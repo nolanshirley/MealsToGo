@@ -8,6 +8,7 @@ import { RestaurantsContextProvider } from "./src/services/restaurants/restauran
 import { LocationContextProvider } from "./src/services/location/location.context";
 import { Navigation } from "./src/infrastructure/navigation";
 import "react-native-gesture-handler"; // dependency for @react-navigation/stack see https://reactnavigation.org/docs/stack-navigator for details
+import { FavoritesContextProvider } from "./src/services/favorites/favorites.context";
 
 export default function App() {
   const [oswaldLoaded] = useOswald({
@@ -25,11 +26,13 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-      <LocationContextProvider>
-        <RestaurantsContextProvider value={{ restaurants: [1, 2, 3] }} >
-          <Navigation />
-        </RestaurantsContextProvider>
-      </LocationContextProvider>
+      <FavoritesContextProvider>
+        <LocationContextProvider>
+          <RestaurantsContextProvider value={{ restaurants: [1, 2, 3] }} >
+            <Navigation />
+          </RestaurantsContextProvider>
+        </LocationContextProvider>
+      </FavoritesContextProvider>
       </ThemeProvider>
       <ExpoStatusBar style="auto" />
     </>

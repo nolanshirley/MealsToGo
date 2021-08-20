@@ -29,7 +29,7 @@ export const MapScreen = ({ navigation }) => {
     return (
         <>
             <Search />
-            <Map region={{latitude: lat, logitude: lng, latitudeDelta: latDelta, longitudeDelta: 0.02}}  >
+            <Map region={{latitude: lat, longitude: lng, latitudeDelta: latDelta, longitudeDelta: 0.02}}  >
                 {restaurants.map((restaurant) => {
                     return (
                         <MapView.Marker
