@@ -1,11 +1,12 @@
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { NavigationContainer } from "@react-navigation/native";
-import { SafeArea } from "../../components/utility/safe-area.component";
-import { Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { RestaurantsNavigator } from "./restaurants.navigator";
 import { MapScreen } from "../../features/map/screens/map.screen";
+import { FavoritesContextProvider } from "../../services/favorites/favorites.context";
+import { LocationContextProvider } from "../../services/location/location.context";
+import { RestaurantsContextProvider } from "../../services/restaurants/restaurants.context";
+import { SettingsNavigator } from "./settings.navigator";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,8 +15,6 @@ const TAB_ICON = {
   Map: "md-map",
   Settings: "md-settings",
 };
-
-const Settings = () => <SafeArea><Text> Settings </Text></SafeArea>;
 
 const creatingScreenOptions = ({ route }) => {
   const iconName = TAB_ICON[route.name];
@@ -29,20 +28,23 @@ const creatingScreenOptions = ({ route }) => {
       backgroundColor: "#256CBC",
     },
   };
-};
+};// Instead of mounting these context providers in app.js, we mount them here in app.navigator when a user is already logged in. 
+      // Once a user logs out then the memory of these context providers is wiped clean.
 
 export const AppNavigator = () => {
 
-    return (
-        <>
-        <NavigationContainer>
-            <Tab.Navigator
-            screenOptions={creatingScreenOptions}>
-                <Tab.Screen options={{header: () => null}} name="Restaurants" component={RestaurantsNavigator} />
-                <Tab.Screen options={{header: () => null}}  name="Map" component={MapScreen} />
-                <Tab.Screen options={{header: () => null}}  name="Settings" component={Settings} />
-            </Tab.Navigator>
-        </NavigationContainer>
-      </>
+    return ( 
+        <FavoritesContextProvider>
+          <LocationContextProvider>
+            <RestaurantsContextProvider >
+              <Tab.Navigator
+              screenOptions={creatingScreenOptions}>
+                  <Tab.Screen options={{header: () => null}} name="Restaurants" component={RestaurantsNavigator} />
+                  <Tab.Screen options={{header: () => null}}  name="Map" component={MapScreen} />
+                  <Tab.Screen options={{header: () => null}}  name="Settings" component={SettingsNavigator} />
+              </Tab.Navigator>
+            </RestaurantsContextProvider>
+          </LocationContextProvider>
+        </FavoritesContextProvider>
     );
 };

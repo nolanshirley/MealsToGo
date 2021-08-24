@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ScrollView } from "react-native";
-import { SafeArea } from "../../components/utility/safe-area.component";
-import { RestaurantInfoCard } from "../restaurants/components/restaurant-info.component";
+import { SafeArea } from "../../../components/utility/safe-area.component";
+import { RestaurantInfoCard } from "../components/restaurant-info.component"; 
 import { List } from "react-native-paper";
 
 export const RestaurantDetailScreen = ({ route }) => {
